@@ -69,6 +69,3 @@ def main(request):
             repository.get_time_series()
     
     return "Done."
-
-if __name__ == "__main__":
-    main("")
