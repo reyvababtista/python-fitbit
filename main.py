@@ -16,9 +16,12 @@ from oauthlib.oauth2.rfc6749.errors import MismatchingStateError, MissingTokenEr
 
 def init_firebase(certificate_path, database_url):
     cred = credentials.Certificate(certificate_path)
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': database_url
-    })
+    try:
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': database_url
+        })
+    except ValueError:
+        pass
 
 gc_repository: GoogleCloudRepository = None
 
@@ -66,3 +69,6 @@ def main(request):
             repository.get_time_series()
     
     return "Done."
+
+if __name__ == "__main__":
+    main("")
