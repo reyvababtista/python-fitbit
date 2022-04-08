@@ -10,9 +10,13 @@ from repository.gcloud_repository import GoogleCloudRepository
 from repository.fitbit_repository import Repository
 from datetime import datetime, timedelta
 import firebase_admin
+# import os
 from firebase_admin import credentials
 from oauthlib.oauth2.rfc6749.errors import MismatchingStateError, MissingTokenError
 
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/reyvababtista/Projects/python-fitbit/secrets/tigerawaredev-6692e3e245ac.json"
+gc = GoogleCloud("tigerawaredev")
+gc_repository = GoogleCloudRepository(gc=gc)
 
 def init_firebase(certificate_path, database_url):
     cred = credentials.Certificate(certificate_path)
@@ -23,8 +27,6 @@ def init_firebase(certificate_path, database_url):
     except ValueError:
         pass
 
-gc_repository: GoogleCloudRepository = None
-
 def refresh(token):
     secrets = gc_repository.get_users_secrets()
     user_secret = [d for d in secrets if d["user_id"] == token["user_id"]]
@@ -34,10 +36,6 @@ def refresh(token):
 
 def main(request):
     today = datetime.today()
-    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/reyvababtista/Projects/python-fitbit/secrets/tigerawaredev-6692e3e245ac.json"
-
-    gc = GoogleCloud("tigerawaredev")
-    gc_repository = GoogleCloudRepository(gc=gc)
     firebase_credentials = gc_repository.get_firebase_credential()
     firebase_realtime_db_url = gc_repository.get_realtime_db_url()
 
