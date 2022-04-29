@@ -9,7 +9,7 @@ class Realtime(LocalStorage):
         self.root = root
 
     def store_profile(self, data):
-        self.ref = db.reference(self.root + "/" + data['encodedId'])
+        self.ref = db.reference(self.root + "/" + data['encodedId'] + "/" + data['tiger_aware_id'])
         self.ref.set(data)
 
     def store_activities(self, data, doc_name):

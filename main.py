@@ -34,7 +34,7 @@ def refresh(token):
         secret_id=user_secret[0]["secret_id"], payload=token)
 
 
-def main(request):
+def main(data, context):
     today = datetime.today()
     firebase_credentials = gc_repository.get_firebase_credential()
     firebase_realtime_db_url = gc_repository.get_realtime_db_url()
@@ -44,7 +44,7 @@ def main(request):
 
     root = 'fitbit'
     fs = Firestore(collect_name=root)
-    rdb = Realtime(root=root)
+    rdb = Realtime(root="miscellaneous/" + root)
     csv = Csv()
     repository = Repository(fs, csv, rdb)
 
@@ -62,7 +62,7 @@ def main(request):
                 refresh_cb=refresh
             )
             repository.set_config(fitbit=fitbit, date=today)
-            repository.get_profile()
+            repository.get_profile(secret["tiger_aware_id"])
             repository.get_intraday()
             repository.get_time_series()
     
