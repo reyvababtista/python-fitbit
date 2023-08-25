@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
-from firebase_admin import credentials, firestore
-from fitbit.fitbit_client import Fitbit
-from repository.firestore import Firestore
-from repository.realtime_database import Realtime
-from repository.csv import Csv
-from repository.gcloud import GoogleCloud
-from repository.gcloud_repository import GoogleCloudRepository
-from repository.fitbit_repository import Repository
 from datetime import datetime, timedelta
+
 import firebase_admin
 from firebase_admin import credentials
-from oauthlib.oauth2.rfc6749.errors import MismatchingStateError, MissingTokenError
+
+from fitbit.fitbit_client import Fitbit
+from repository.csv import Csv
+from repository.firestore import Firestore
+from repository.fitbit_repository import Repository
+from repository.gcloud import GoogleCloud
+from repository.gcloud_repository import GoogleCloudRepository
+from repository.realtime_database import Realtime
 
 
 def init_firebase(certificate_path, database_url):
@@ -51,31 +51,15 @@ def main(request):
     secrets = gc_repository.get_users_secrets()
     for secret in secrets:
         start_date = datetime.strptime(secret["start_date"], '%Y-%m-%d')
-<<<<<<< Updated upstream
-        end_date = datetime.strptime(
-            secret["end_date"], '%Y-%m-%d') + timedelta(days=1)
-        if (start_date <= today and today <= end_date):
-            fitbit = Fitbit(
-=======
         end_date = datetime.strptime(secret["end_date"], '%Y-%m-%d') + timedelta(days=1)
         fitbit = Fitbit(
->>>>>>> Stashed changes
                 client_id=secret["client_id"],
                 client_secret=secret["client_secret"],
                 access_token=secret["access_token"],
                 refresh_token=secret["refresh_token"],
                 refresh_cb=refresh
             )
-<<<<<<< Updated upstream
-            repository.set_config(fitbit=fitbit, date=today)
-            repository.get_profile()
-            repository.get_intraday()
-            repository.get_time_series()
-    
-    return "Done."
-=======
         repository.set_config(fitbit=fitbit, date=today)
         repository.get_profile()
         repository.get_intraday()
         repository.get_time_series()
->>>>>>> Stashed changes

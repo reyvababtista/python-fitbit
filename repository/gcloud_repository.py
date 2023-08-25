@@ -1,4 +1,3 @@
-
 from .gcloud import GoogleCloud
 
 
@@ -7,23 +6,15 @@ class GoogleCloudRepository:
         self.gc = gc
 
     def get_firebase_credential(self):
-<<<<<<< Updated upstream
+        print("Getting Firebase credentials..")
         credentials = self.gc.get_secrets(
             filter="labels.domain:fitbit AND labels.type:firebase-config AND labels.id:credentials")
         return credentials[0]
 
     def get_realtime_db_url(self):
+        print("Getting realtime db url..")
         credentials = self.gc.get_secrets(
             filter="labels.domain:fitbit AND labels.type:firebase-config AND labels.id:db-url")
-=======
-        print("Getting Firebase credentials..")
-        credentials = self.gc.get_secrets(filter="labels.domain:fitbit AND labels.type:firebase-config AND labels.id:credentials")
-        return credentials[0]
-
-    def get_realtime_db_url(self):
-        print("Getting realtime db url..")
-        credentials = self.gc.get_secrets(filter="labels.domain:fitbit AND labels.type:firebase-config AND labels.id:db-url")
->>>>>>> Stashed changes
         return credentials[0]
 
     def get_users_secrets(self):
